@@ -6,7 +6,7 @@ const getAll = async () => {
   
     return products;
   } catch (error) {
-    console.log(`ServiceModel getAll: ${error}`);
+    console.log(`ProductService getAll: ${error}`);
     return process.exit(1);
   }
 };
@@ -20,7 +20,7 @@ const getById = async (id) => {
     }
     return product;
   } catch (error) {
-    console.log(`ServiceModel getById: ${error}`);
+    console.log(`ProductService getById: ${error}`);
     return process.exit(1);
   }
 };

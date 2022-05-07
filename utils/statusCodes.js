@@ -1,0 +1,7 @@
+const STATUS_INTERNAL_SERVER_ERROR = 500;
+const STATUS_OK = 200;
+
+module.exports = {
+  STATUS_INTERNAL_SERVER_ERROR,
+  STATUS_OK,
+};

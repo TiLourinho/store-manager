@@ -1,18 +1,28 @@
 const ProductModel = require('../models/ProductModel');
 
 const getAll = async () => {
-  const products = await ProductModel.getAll();
-
-  return products;
+  try {
+    const products = await ProductModel.getAll();
+  
+    return products;
+  } catch (error) {
+    console.log(`ServiceModel getAll: ${error}`);
+    return process.exit(1);
+  }
 };
 
 const getById = async (id) => {
-  const product = await ProductModel.getById(id);
-
-  if (!product) {
-    return null;
+  try {
+    const product = await ProductModel.getById(id);
+  
+    if (!product) {
+      return null;
+    }
+    return product;
+  } catch (error) {
+    console.log(`ServiceModel getById: ${error}`);
+    return process.exit(1);
   }
-  return product;
 };
 
 module.exports = {

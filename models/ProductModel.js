@@ -7,7 +7,7 @@ const getAll = async () => {
 
     return products;
   } catch (error) {
-    console.log(`ProductModel getAll: ${error.message}`);
+    console.log(`ProductModel getAll: ${error}`);
     return process.exit(1);
   }
 };
@@ -17,9 +17,11 @@ const getById = async (id) => {
     const query = 'SELECT * FROM products WHERE id = ?';
     const [product] = await connection.execute(query, [id]);
 
+    if (product.length === 0) return null;
+
     return product[0];
   } catch (error) {
-    console.log(`ProductModel getById: ${error.message}`);
+    console.log(`ProductModel getById: ${error}`);
     return process.exit(1);
   }
 };

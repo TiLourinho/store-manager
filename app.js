@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { STATUS_INTERNAL_SERVER_ERROR } = require('./utils/statusCodes');
+const errorMiddleware = require('./middlewares/errorMiddleware');
 
 const productsRouter = require('./routes/productsRouter');
 
@@ -14,12 +14,7 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.use((err, _req, res, _next) => {
-  if (err.status) {
-    return res.status(err.status).json({ message: err.message });
-  }
-  return res.status(STATUS_INTERNAL_SERVER_ERROR).json({ message: 'Internal Server Error' });
-});
+app.use(errorMiddleware);
 
 // não remova essa exportação, é para o avaliador funcionar
 // você pode registrar suas rotas normalmente, como o exemplo acima

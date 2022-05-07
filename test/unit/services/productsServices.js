@@ -1,9 +1,10 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../models/connection');
+const ProductService = require('../../../services/ProductService');
 const ProductModel = require('../../../models/ProductModel');
 
-describe('Camada ProductModel:', () => {
+describe('Camada ProductService', () => {
   describe('Quando não há produtos cadastrados no BD', () => {
     describe('testa se a função "getAll"', () => {
       const data = [[]];
@@ -17,12 +18,12 @@ describe('Camada ProductModel:', () => {
       });
 
       it('retorna um array', async () => {
-        const result = await ProductModel.getAll();
+        const result = await ProductService.getAll();
         expect(result).to.be.an('array');
       });
   
       it('retorna um array vazio', async () => {
-        const result = await ProductModel.getAll();
+        const result = await ProductService.getAll();
         expect(result).to.be.empty;
       });
     });
@@ -47,22 +48,22 @@ describe('Camada ProductModel:', () => {
       });
   
       it('retorna um array', async () => {
-        const result = await ProductModel.getAll();
+        const result = await ProductService.getAll();
         expect(result).to.be.an('array');
       });
   
       it('retorna um array preenchido', async () => {
-        const result = await ProductModel.getAll();
+        const result = await ProductService.getAll();
         expect(result).to.be.not.empty;
       });
   
       it('retorna um array com objetos', async () => {
-        const [result] = await ProductModel.getAll();
+        const [result] = await ProductService.getAll();
         expect(result).to.be.an('object');
       });
   
       it('retorna um array em que os objetos inseridos nele possuam as chaves "id", "name" e "quantity"', async () => {
-        const [result] = await ProductModel.getAll();
+        const [result] = await ProductService.getAll();
         expect(result).to.have.all.keys('id', 'name', 'quantity');
       });
     });
@@ -81,12 +82,12 @@ describe('Camada ProductModel:', () => {
       });
 
       it('retorna null', async () => {
-        const result = await ProductModel.getById();
+        const result = await ProductService.getById();
         expect(result).to.be.equal(null);
       });
     });
   });
-  
+
   describe('Quando há produtos cadastrados no BD', () => {
     describe('testa se a função "getById"', () => {
       const data = [
@@ -106,17 +107,17 @@ describe('Camada ProductModel:', () => {
       });
 
       it('retorna um array preenchido', async () => {
-        const result = await ProductModel.getById(1);
+        const result = await ProductService.getById(1);
         expect(result).to.be.not.empty;
       });
 
       it('retorna um array com objetos', async () => {
-        const result = await ProductModel.getById(1);
+        const result = await ProductService.getById(1);
         expect(result).to.be.an('object');
       });
 
       it('retorna um array em que os objetos inseridos nele possuam as chaves "id", "name" e "quantity"', async () => {
-        const result = await ProductModel.getById(1);
+        const result = await ProductService.getById(1);
         expect(result).to.have.all.keys('id', 'name', 'quantity');
       });
     });

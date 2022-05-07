@@ -4,7 +4,7 @@ const connection = require('../../../models/connection');
 const ProductService = require('../../../services/ProductService');
 const ProductModel = require('../../../models/ProductModel');
 
-describe('Camada ProductService', () => {
+describe('2 - Camada ProductService:', () => {
   describe('Quando não há produtos cadastrados no BD', () => {
     describe('testa se a função "getAll"', () => {
       const data = [[]];

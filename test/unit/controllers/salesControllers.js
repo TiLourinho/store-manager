@@ -1,10 +1,10 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const ProductController = require('../../../controllers/ProductController');
-const ProductService = require('../../../services/ProductService');
+const SalesController = require('../../../controllers/SalesController');
+const SalesService = require('../../../services/SalesService');
 
-describe('3 - Camada ProductController:', () => {
-  describe('Quando não há produtos cadastrados no BD', () => {
+describe('6 - Camada SalesController:', () => {
+  describe('Quando não há vendas cadastradas no BD', () => {
     describe('testa se a função "getAll"', () => {
       const request = {};
       const response = {};
@@ -13,32 +13,33 @@ describe('3 - Camada ProductController:', () => {
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
 
-        sinon.stub(ProductService, 'getAll').resolves([]);
+        sinon.stub(SalesService, 'getAll').resolves([]);
       });
 
       after(() => {
-        ProductService.getAll.restore();
+        SalesService.getAll.restore();
       });
 
       it('retorna o método "status" passando 200', async () => {
-        await ProductController.getAll(request, response);
+        await SalesController.getAll(request, response);
         expect(response.status.calledWith(200)).to.be.equal(true);
       });
 
       it('retorna o método "json" contendo um array', async () => {
-        await ProductController.getAll(request, response);
+        await SalesController.getAll(request, response);
         expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
       });
     });
   });
 
-  describe('Quando há produtos cadastrados no BD', () => {
+  describe('Quando há vendas cadastradas no BD', () => {
     describe('testa se a função "getAll"', () => {
       const data = [
         {
-          "id": 1,
-          "name": "Martelo de Thor",
-          "quantity": 10
+          "saleId": 1,
+          "date": "2022-05-07T22:51:52.000Z",
+          "productId": 1,
+          "quantity": 5
         }
       ];
 
@@ -49,26 +50,26 @@ describe('3 - Camada ProductController:', () => {
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
 
-        sinon.stub(ProductService, 'getAll').resolves(data);
+        sinon.stub(SalesService, 'getAll').resolves(data);
       });
 
       after(() => {
-        ProductService.getAll.restore();
+        SalesService.getAll.restore();
       });
 
       it('retorna o método "status" passando 200', async () => {
-        await ProductController.getAll(request, response);
+        await SalesController.getAll(request, response);
         expect(response.status.calledWith(200)).to.be.equal(true);
       });
 
       it('retorna o método "json" contendo um array', async () => {
-        await ProductController.getAll(request, response);
+        await SalesController.getAll(request, response);
         expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
       });
     });
   });
 
-  describe('Quando não há produtos cadastrados no BD', () => {
+  describe('Quando não há vendas cadastradas no BD', () => {
     describe('testa se a função "getById"', () => {
       const request = {};
       const response = {};
@@ -78,32 +79,32 @@ describe('3 - Camada ProductController:', () => {
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
 
-        sinon.stub(ProductService, 'getById').resolves(null);
+        sinon.stub(SalesService, 'getById').resolves(null);
       });
 
       after(() => {
-        ProductService.getById.restore();
+        SalesService.getById.restore();
       });
 
       it('retorna o método "status" passando 404', async () => {
-        await ProductController.getById(request, response);
+        await SalesController.getById(request, response);
         expect(response.status.calledWith(404)).to.be.equal(true);
       });
 
       it('retorna o método "json" contendo um objeto', async () => {
-        await ProductController.getById(request, response);
+        await SalesController.getById(request, response);
         expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
       });
     });
   });
 
-  describe('Quando há produtos cadastrados no BD', () => {
+  describe('Quando há vendas cadastradas no BD', () => {
     describe('testa se a função "getById"', () => {
       const data = [
         {
-          "id": 1,
-          "name": "Martelo de Thor",
-          "quantity": 10
+          "date": "2022-05-07T22:51:52.000Z",
+          "productId": 1,
+          "quantity": 5
         }
       ];
 
@@ -115,20 +116,20 @@ describe('3 - Camada ProductController:', () => {
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
 
-        sinon.stub(ProductService, 'getById').resolves(data);
+        sinon.stub(SalesService, 'getById').resolves(data);
       });
 
       after(() => {
-        ProductService.getById.restore();
+        SalesService.getById.restore();
       });
 
       it('retorna o método "status" passando 200', async () => {
-        await ProductController.getById(request, response);
+        await SalesController.getById(request, response);
         expect(response.status.calledWith(200)).to.be.equal(true);
       });
 
       it('retorna o método "json" contendo um array', async () => {
-        await ProductController.getById(request, response);
+        await SalesController.getById(request, response);
         expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
       });
     });

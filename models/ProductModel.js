@@ -12,6 +12,19 @@ const getAll = async () => {
   }
 };
 
+const getById = async (id) => {
+  try {
+    const query = 'SELECT * FROM products WHERE id = ?';
+    const [product] = await connection.execute(query, [id]);
+
+    return product[0];
+  } catch (error) {
+    console.log(`ProductModel getById: ${error.message}`);
+    return process.exit(1);
+  }
+};
+
 module.exports = {
   getAll,
+  getById,
 };

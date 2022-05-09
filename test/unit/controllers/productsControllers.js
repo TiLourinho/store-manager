@@ -133,4 +133,38 @@ describe('3 - Camada ProductController:', () => {
       });
     });
   });
+
+  describe('Quando não há produtos com o mesmo "name" cadastrados no BD', () => {
+    describe('testa se a função "create"', () => {
+      const request = {};
+      const response = {};
+
+      before(() => {
+        request.body = [
+          {
+            "name": "Armadura do Homem de Ferro",
+            "quantity": 1
+          }
+        ];
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        sinon.stub(ProductService, 'create').resolves(request.body);
+      });
+  
+      after(() => {
+        ProductService.create.restore();
+      });
+
+      it('retorna o método "status" passando 201', async () => {
+        await ProductController.create(request, response);
+        expect(response.status.calledWith(201)).to.be.equal(true);
+      });
+
+      it('retorna o método "json" contendo um array', async () => {
+        await ProductController.create(request, response);
+        expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
+      });
+    });
+  });
 });

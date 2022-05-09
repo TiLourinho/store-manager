@@ -121,4 +121,34 @@ describe('1 - Camada ProductModel:', () => {
       });
     });
   });
+
+  describe('Quando não há produtos com o mesmo "name" cadastrados no BD', () => {
+    describe('testa se a função "create"', () => {
+      const data = [
+        {
+          "name": "Armadura do Homem de Ferro",
+          "quantity": 1
+        }
+      ];
+
+      before(() => {
+        const registerId = [{ insertId: 1 }]
+        sinon.stub(connection, 'execute').resolves(registerId);
+      });
+  
+      after(() => {
+        connection.execute.restore();
+      });
+
+      it('retorna um objeto', async () => {
+        const result = await ProductModel.create(data);
+        expect(result).to.be.an('object');
+      });
+
+      it('retorna um objeto que possua as chaves "id", "name" e "quantity"', async () => {
+        const result = await ProductModel.create(data);
+        expect(result).to.have.all.keys('id', 'name', 'quantity');
+      });
+    });
+  });
 });

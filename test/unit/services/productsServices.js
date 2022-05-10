@@ -153,4 +153,32 @@ describe('2 - Camada ProductService:', () => {
       });
     });
   });
+
+  describe('Testa se a função "update"', () => {
+    const data = [
+      {
+        "id": 1,
+        "name": "Martelo de Thor",
+        "quantity": 10
+      }
+    ];
+
+    before(() => {
+      sinon.stub(connection, 'execute').resolves([data]);
+    });
+
+    after(() => {
+      connection.execute.restore();
+    });
+
+    it('retorna um objeto', async () => {
+      const result = await ProductService.update(data);
+      expect(result).to.be.an('object');
+    });
+
+    it('retorna um objeto que possua as chaves "id", "name" e "quantity"', async () => {
+      const result = await ProductService.update(data);
+      expect(result).to.have.all.keys('id', 'name', 'quantity');
+    });
+  });
 });

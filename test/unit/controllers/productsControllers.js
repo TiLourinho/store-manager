@@ -167,4 +167,38 @@ describe('3 - Camada ProductController:', () => {
       });
     });
   });
+
+  describe('Testa se a função "update"', () => {
+    const request = {};
+    const response = {};
+
+    before(() => {
+      request.body = [
+        {
+          "id": 1,
+          "name": "Martelo de Thor",
+          "quantity": 10
+        }
+      ];
+      request.params = { id: 1 };
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      sinon.stub(ProductService, 'update').resolves(request.body);
+    });
+
+    after(() => {
+      ProductService.update.restore();
+    });
+
+    it('retorna o método "status" passando 200', async () => {
+      await ProductController.update(request, response);
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('retorna o método "json" contendo um array', async () => {
+      await ProductController.update(request, response);
+      expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
+    });
+  });
 });

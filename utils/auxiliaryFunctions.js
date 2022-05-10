@@ -21,8 +21,18 @@ const getByName = async (name) => {
   return product[0];
 };
 
+const getSalesId = async () => {
+  const query = 'INSERT INTO sales (date) VALUES (NOW())';
+  const [sales] = await connection.execute(query);
+
+  const salesId = sales.insertId;
+
+  return salesId;
+};
+
 module.exports = {
   formatSalesKeys,
   errorHandler,
   getByName,
+  getSalesId,
 };

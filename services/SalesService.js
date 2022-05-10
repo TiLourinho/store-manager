@@ -1,4 +1,5 @@
 const SalesModel = require('../models/SalesModel');
+const { getSalesId } = require('../utils/auxiliaryFunctions');
 
 const getAll = async () => {
   const sales = await SalesModel.getAll();
@@ -15,7 +16,19 @@ const getById = async (id) => {
   return sales;
 };
 
+const create = async (sales) => {
+  const id = await getSalesId();
+
+  await Promise.all(sales
+    .map((elem) => SalesModel.create(id, elem.productId, elem.quantity)));
+
+  const registeredSales = { id, itemsSold: sales };
+
+  return registeredSales;
+};
+
 module.exports = {
   getAll,
   getById,
+  create,
 };

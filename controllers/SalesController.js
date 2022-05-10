@@ -24,8 +24,18 @@ const create = async (req, res) => {
   return res.status(STATUS_CREATED).json(sales);
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const attributes = req.body;
+
+  const sales = await SalesService.update(id, attributes);
+
+  return res.status(STATUS_OK).json(sales);
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  update,
 };

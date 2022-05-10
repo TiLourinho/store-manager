@@ -7,6 +7,6 @@ const SalesController = require('../controllers/SalesController');
 salesRouter.get('/sales', rescue(SalesController.getAll));
 salesRouter.get('/sales/:id', rescue(SalesController.getById));
 salesRouter.post('/sales', validateSales, rescue(SalesController.create));
-salesRouter.put('/sales/:id', validateSales);
+salesRouter.put('/sales/:id', validateSales, rescue(SalesController.update));
 
 module.exports = salesRouter;

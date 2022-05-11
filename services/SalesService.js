@@ -1,5 +1,6 @@
 const SalesModel = require('../models/SalesModel');
-const { getSalesId } = require('../utils/auxiliaryFunctions');
+const { getSalesId, errorHandler, removeSales } = require('../utils/auxiliaryFunctions');
+const { STATUS_NOT_FOUND } = require('../utils/statusCodes');
 
 const getAll = async () => {
   const sales = await SalesModel.getAll();
@@ -36,9 +37,23 @@ const update = async (id, sales) => {
   return registeredSales;
 };
 
+const remove = async (id) => {
+  const checkId = await SalesModel.getById(id);
+
+  if (!checkId) {
+    throw errorHandler(STATUS_NOT_FOUND, 'Sale not found');
+  }
+
+  await removeSales(id);
+  const sales = await SalesModel.remove(id);
+
+  return sales;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
+  remove,
 };

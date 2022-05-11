@@ -1,5 +1,6 @@
 const SalesService = require('../services/SalesService');
-const { STATUS_OK, STATUS_NOT_FOUND, STATUS_CREATED } = require('../utils/statusCodes');
+const { STATUS_OK, STATUS_NOT_FOUND,
+  STATUS_CREATED, STATUS_NO_CONTENT } = require('../utils/statusCodes');
 
 const getAll = async (_req, res) => {
   const sales = await SalesService.getAll();
@@ -33,9 +34,17 @@ const update = async (req, res) => {
   return res.status(STATUS_OK).json(sales);
 };
 
+const remove = async (req, res) => {
+  const { id } = req.params;
+  await SalesService.remove(id);
+
+  return res.status(STATUS_NO_CONTENT).end();
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
+  remove,
 };

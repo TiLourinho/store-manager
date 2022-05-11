@@ -122,4 +122,58 @@ describe('4 - Camada SalesModel:', () => {
       });
     });
   });
+
+  describe('Testa se a função "create"', () => {
+    const data = [
+      {
+        "productId": 3,
+        "quantity": 10
+      }
+    ];
+
+    before(() => {
+      sinon.stub(connection, 'execute').resolves([data]);
+    });
+
+    after(() => {
+      connection.execute.restore();
+    });
+
+    it('retorna um array', async () => {
+      const result = await SalesModel.create(data);
+      expect(result).to.be.an('array');
+    });
+
+    it('retorna um objeto que possua as chaves "productId", "quantity"', async () => {
+      const [result] = await SalesModel.create(data);
+      expect(result).to.have.all.keys('productId', 'quantity');
+    });
+  });
+
+  describe('Testa se a função "update"', () => {
+    const data = [
+      {
+        "productId": 3,
+        "quantity": 10
+      }
+    ];
+
+    before(() => {
+      sinon.stub(connection, 'execute').resolves([data]);
+    });
+
+    after(() => {
+      connection.execute.restore();
+    });
+
+    it('retorna um array', async () => {
+      const result = await SalesModel.update(data);
+      expect(result).to.be.an('array');
+    });
+
+    it('retorna um objeto que possua as chaves "productId", "quantity"', async () => {
+      const [result] = await SalesModel.update(data);
+      expect(result).to.have.all.keys('productId', 'quantity');
+    });
+  });
 });

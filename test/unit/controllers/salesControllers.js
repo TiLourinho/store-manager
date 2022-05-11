@@ -134,4 +134,81 @@ describe('6 - Camada SalesController:', () => {
       });
     });
   });
+
+  describe('testa se a função "create"', () => {
+    const data = [
+      {
+        "id": 3,
+        "itemsSold": [
+          {
+            "productId": 3,
+            "quantity": 8
+          }
+        ]
+      }
+    ];
+
+    const request = {};
+    const response = {};
+
+    before(() => {
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      sinon.stub(SalesService, 'create').resolves(data);
+    });
+
+    after(() => {
+      SalesService.create.restore();
+    });
+
+    it('retorna o método "status" passando 200', async () => {
+      await SalesController.create(request, response);
+      expect(response.status.calledWith(201)).to.be.equal(true);
+    });
+
+    it('retorna o método "json" contendo um array', async () => {
+      await SalesController.create(request, response);
+      expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
+    });
+  });
+
+  describe('testa se a função "update"', () => {
+    const data = [
+      {
+        "saleId": "1",
+        "itemUpdated": [
+          {
+            "productId": 2,
+            "quantity": 12
+          }
+        ]
+      }
+    ];
+
+    const request = {};
+    const response = {};
+
+    before(() => {
+      request.params = { id: 1 };
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      sinon.stub(SalesService, 'update').resolves(data);
+    });
+
+    after(() => {
+      SalesService.update.restore();
+    });
+
+    it('retorna o método "status" passando 200', async () => {
+      await SalesController.update(request, response);
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('retorna o método "json" contendo um array', async () => {
+      await SalesController.update(request, response);
+      expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
+    });
+  });
 });

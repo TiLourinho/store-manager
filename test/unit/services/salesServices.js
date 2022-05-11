@@ -108,19 +108,75 @@ describe('5 - Camada SalesService:', () => {
       });
 
       it('retorna um array preenchido', async () => {
-        const result = await SalesModel.getById(1);
+        const result = await SalesService.getById(1);
         expect(result).to.be.not.empty;
       });
 
       it('retorna um array com objetos', async () => {
-        const [result] = await SalesModel.getById(1);
+        const [result] = await SalesService.getById(1);
         expect(result).to.be.an('object');
       });
 
       it('retorna um array em que os objetos inseridos nele possuam as chaves "saleId", "date", "productId" e "quantity"', async () => {
-        const [result] = await SalesModel.getById(1);
+        const [result] = await SalesService.getById(1);
         expect(result).to.have.all.keys('saleId', 'date', 'productId', 'quantity');
       });
+    });
+  });
+
+  describe('Testa se a função "create"', () => {
+    const data = [
+      {
+        "productId": 3,
+        "quantity": 10
+      }
+    ];
+
+    before(() => {
+      sinon.stub(connection, 'execute').resolves([data]);
+    });
+
+    after(() => {
+      connection.execute.restore();
+    });
+
+    it('retorna um objeto', async () => {
+      const result = await SalesService.create(data);
+      expect(result).to.be.an('object');
+    });
+
+    it('retorna um objeto que possua as chaves "id", "itemsSold"', async () => {
+      const result = await SalesService.create(data);
+      expect(result).to.have.all.keys('id', 'itemsSold');
+    });
+  });
+
+  describe('Testa se a função "update"', () => {
+    const data = [
+      {
+        "productId": 3,
+        "quantity": 10
+      }
+    ];
+
+    const registerId = [{ insertId: 1 }];
+
+    before(() => {
+      sinon.stub(connection, 'execute').resolves([registerId], [data]);
+    });
+
+    after(() => {
+      connection.execute.restore();
+    });
+
+    it('retorna um object', async () => {
+      const result = await SalesService.update(registerId, data);
+      expect(result).to.be.an('object');
+    });
+
+    it('retorna um objeto que possua as chaves "saleId", "itemUpdated"', async () => {
+      const result = await SalesService.update(registerId, data);
+      expect(result).to.have.all.keys('saleId', 'itemUpdated');
     });
   });
 });

@@ -28,8 +28,6 @@ const create = async (sales) => {
 };
 
 const update = async (id, sales) => {
-  await getById(id);
-  
   await Promise.all(sales
     .map((elem) => SalesModel.update(id, elem.productId, elem.quantity)));
 

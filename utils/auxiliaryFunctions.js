@@ -37,10 +37,39 @@ const removeSales = async (id) => {
   return sales;
 };
 
+const stockEntry = async (id, quantity) => { 
+  const query = `UPDATE products
+    SET quantity = quantity + ?
+    WHERE id = ?`;
+  const stock = await connection.execute(query, [quantity, id]);
+
+  return stock;
+};
+
+const stockOut = async (id, quantity) => {
+  const query = `UPDATE products
+    SET quantity = quantity - ?
+    WHERE id = ?`;
+  const stock = await connection.execute(query, [quantity, id]);
+
+  return stock;
+};
+
+const stockQuantity = async (id) => {
+  const query = `SELECT product_id AS productId, quantity
+    FROM sales_products WHERE sale_id = ?`;
+  const [stock] = await connection.execute(query, [id]);
+
+  return stock;
+};
+
 module.exports = {
   formatSalesKeys,
   errorHandler,
   getByName,
   getSalesId,
   removeSales,
+  stockEntry,
+  stockOut,
+  stockQuantity,
 };

@@ -1,5 +1,6 @@
 const SalesModel = require('../models/SalesModel');
-const { getSalesId, errorHandler, removeSales } = require('../utils/auxiliaryFunctions');
+const { getSalesId, errorHandler,
+  removeSales, stockEntry, stockOut, stockQuantity } = require('../utils/auxiliaryFunctions');
 const { STATUS_NOT_FOUND } = require('../utils/statusCodes');
 
 const getAll = async () => {
@@ -22,6 +23,7 @@ const create = async (sales) => {
 
   await Promise.all(sales
     .map((elem) => SalesModel.create(id, elem.productId, elem.quantity)));
+  await Promise.all(sales.map((elem) => stockOut(elem.productId, elem.quantity)));
 
   const registeredSales = { id, itemsSold: sales };
 
@@ -43,6 +45,9 @@ const remove = async (id) => {
   if (!checkId) {
     throw errorHandler(STATUS_NOT_FOUND, 'Sale not found');
   }
+  
+  const quantity = await stockQuantity(id);
+  await Promise.all(quantity.map((elem) => stockEntry(elem.productId, elem.quantity)));
 
   await removeSales(id);
   const sales = await SalesModel.remove(id);

@@ -32,7 +32,7 @@ const create = async (id, productId, quantity) => {
   const query = `INSERT INTO sales_products (sale_id, product_id, quantity)
     VALUES (?, ?, ?)`;
   const [sales] = await connection.execute(query, [id, productId, quantity]);
-
+  
   return sales;
 };
 
